@@ -1,0 +1,301 @@
+<html>
+<head>
+   <link href="styles.css" rel="stylesheet" type="text/css"/>
+<style>
+body {
+  background-color: #2f3136;
+}
+
+button {
+  background-color: #36393f; /*//rust gray#555555*/
+  color: white;
+  border-radius: 0px;
+  border: 2px solid gray;
+  width: 150px;
+  height: 50px;
+  z-index: 1;
+}
+
+#button_container {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+
+things {
+  position: absolute;
+  bottom:50px;
+  height: calc(100% - 90px);
+  width: 80%;
+  z-index: -1;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+textarea {
+  position: absolute;
+  top: 0px;
+  height: 200px;
+  max-height: 100%;
+  width: 100%;
+  background-color: yellow;
+  display: flex;
+  overflow: auto;
+}
+
+.button1 {
+  //transition-duration: 0.1s;
+  position: relative;
+  display: block;
+}
+
+.button1:hover {
+  background-color: gray;
+}      
+
+#input {
+  position: fixed;
+  bottom: 0;
+  background-color: #555555;
+  color: white;
+  border: 2px #e7e7e7;
+  border-radius: 4px;
+  padding: 12px 20px;
+  margin: 8px 0px;
+  width: 80%
+}
+
+#inputname {
+  position: fixed;
+  top: 0;
+  background-color: #555555;
+  color: white;
+  border: 2px #e7e7e7;
+  border-radius: 2px;
+  padding: 7px 10px;
+  margin: 4px -3px;
+  width: 26%
+}
+
+#signin {
+  background-color: #36393f; /*//rust gray#555555*/
+  color: white;
+  border-radius: 0px;
+  border: 2px solid gray;
+  width: 70px;
+  height: 30px;
+  position: relative;
+  bottom: 38px;
+  left: 27%;
+}
+
+.mymessage {
+  position: relative;
+  top: 90%;
+  color: white;
+}
+
+.sender {
+  position: relative;
+  top: 90%;
+  color: white;
+  font-family: Verdana;
+  font-size: 1.5em;
+}
+
+doc_container {
+  position: absolute;
+  top:37px;
+  height: 200px;
+  max-height: 50%;
+  width: 80%;
+  color: blue;
+  z-index: 3;
+}
+
+#submit_doc_button {
+  position: absolute;
+  z-index: 1;
+  width: 70px;
+  height: 40px;
+  right: 0;
+  bottom: 0;
+}
+
+#document_button {
+  position: absolute;
+  left: 42%;
+  top: 4px;
+  height: 40px;
+  width: 100px;
+}
+
+</style>
+</head>
+<body>
+
+<button_container id="button_container", class="button_container">
+</button_container>
+
+<doc_container id="doc_container", class="doc_container">
+</doc_container>
+
+<button id="document_button"> Document
+</button>
+
+HTTP working
+<form id="form" action="">
+<input placeholder="chat here"id="input"autocomplete="off" />
+</form>
+
+<form id="formname" action="">
+<input placeholder="Put your name here"id="inputname" autocomplete="off" />
+<button id="signin" <p>Sign in</button>
+</form>
+
+<script src="/socket.io/socket.io.js"></script>
+<script> 
+
+var socket = io()
+var chosen_reciever = "all"
+let name_updater
+    
+
+form.addEventListener('submit', function(q) {
+   q.preventDefault()
+
+   if (input) {
+     socket.emit('message', input.value, chosen_reciever)
+     input.value = ''
+   }})
+
+
+formname.addEventListener('submit', function(e) {
+   e.preventDefault()
+
+   if (inputname) {
+     socket.emit('name', inputname.value)
+   }
+})
+
+
+socket.on("userlist", function(userlist){
+  userlist.forEach(allusers)
+    
+  function allusers(eachuser) {
+    console.log(eachuser)
+    x(eachuser)
+  }
+})
+
+socket.on("name_update", function(name_update){
+  x(name_update)
+})
+
+  
+  function x (name_update){
+    btn = document.createElement('button')
+    btn.className = 'button1';
+    btn.innerHTML = name_update
+    btn.id = name_update
+    document.getElementById('button_container').appendChild(btn)
+  
+btn.addEventListener('click', function(z) {
+  z.preventDefault()
+     //to hide and show background
+  if (document.getElementById("container" + chosen_reciever)){                     //checks if exist
+  document.getElementById("container" + chosen_reciever).style.display = "none";
+ document.getElementById("textdoc" + 
+ chosen_reciever).style.display = "none";
+  }
+      //clears last backgrounds & doc
+  
+
+chosen_reciever = document.getElementById(name_update).innerHTML                                                          //global 1
+
+if (!document.getElementById("container" + chosen_reciever)){           //checks if already clicked
+  let div = document.createElement('things')
+  div.id = "container" + chosen_reciever
+  document.body.appendChild(div)
+  div.className = "menus"
+
+  //Document creation and use code, show at 284
+  let textdoc = document.createElement("textarea");
+  document.getElementById("doc_container").appendChild(textdoc)
+  textdoc.id = "textdoc" + chosen_reciever
+  //update button create
+  let submitdoc = document.createElement('button')
+  document.getElementById("doc_container").appendChild(submitdoc)
+  submitdoc.id = "submit_doc_button"
+  submitdoc.innerHTML = "Send update"
+    
+//HERE 257
+  //update button click
+  submitdoc.addEventListener('click', function(r) {
+  r.preventDefault()
+  
+  let textdoc_content = document.getElementById("textdoc" + chosen_reciever).value
+  socket.emit("textdoc_content", textdoc_content, chosen_reciever)
+})
+}
+  
+else {              //shows the chosen_reciever element(s)
+  let divelements = document.getElementById("container" + chosen_reciever)
+    
+  if (document.getElementById("container" + 
+    chosen_reciever).style.display === "none") {
+    document.getElementById("container" + 
+    chosen_reciever).style.display = "flex";
+    }
+}
+})
+    
+if (document.getElementById("doc_container")) {
+  document.getElementById("doc_container").style.display = "none";
+}
+}
+
+
+socket.on("privatemessage",function (sender_name, message){
+  let sender = document.createElement('sender')
+  sender.innerHTML = sender_name
+  //document.getElementById('message_container').appendChild(sender)
+  document.getElementById("container"+ chosen_reciever).appendChild(sender)
+  sender.className = 'sender'
+
+  let mymessage = document.createElement('mymessage')
+  mymessage.innerHTML = message
+  //document.getElementById('message_container').appendChild(mymessage)
+  document.getElementById("container"+ chosen_reciever).appendChild(mymessage)
+  mymessage.className = 'mymessage'
+
+  let messagecontainer = document.getElementById("container"+ chosen_reciever)
+  messagecontainer.scrollTop = messagecontainer.scrollHeight;
+})
+
+socket.on("recievedoc", function (sender_name, message){
+  document.getElementById("textdoc" + chosen_reciever).value = message
+})
+
+
+  //Document button click
+document.getElementById("document_button").addEventListener('click', function(h) {
+  h.preventDefault()
+
+if(document.getElementById("doc_container").style.display === "none") {
+    
+  document.getElementById("doc_container").style.display = "flex";
+ document.getElementById("textdoc" + 
+ chosen_reciever).style.display = "flex";
+}
+  
+else { document.getElementById("doc_container").style.display = "none";
+}
+})
+
+</script>
+</body>
+</html>
