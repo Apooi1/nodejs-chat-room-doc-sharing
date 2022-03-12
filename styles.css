@@ -1,0 +1,132 @@
+<style>
+body {
+  background-color: #2f3136;
+}
+
+button {
+  background-color: #36393f; /*//rust gray#555555*/
+  color: white;
+  border-radius: 0px;
+  border: 2px solid gray;
+  width: 150px;
+  height: 50px;
+  z-index: 1;
+}
+
+#button_container {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+
+things {
+  position: absolute;
+  bottom:50px;
+  height: calc(100% - 90px);
+  width: 80%;
+  z-index: -1;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+textarea {
+  position: absolute;
+  top: 0px;
+  height: 200px;
+  max-height: 100%;
+  width: 100%;
+  background-color: yellow;
+  display: flex;
+  overflow: auto;
+}
+
+.button1 {
+  //transition-duration: 0.1s;
+  position: relative;
+  display: block;
+}
+
+.button1:hover {
+  background-color: gray;
+}      
+
+#input {
+  position: fixed;
+  bottom: 0;
+  background-color: #555555;
+  color: white;
+  border: 2px #e7e7e7;
+  border-radius: 4px;
+  padding: 12px 20px;
+  margin: 8px 0px;
+  width: 80%
+}
+
+#inputname {
+  position: fixed;
+  top: 0;
+  background-color: #555555;
+  color: white;
+  border: 2px #e7e7e7;
+  border-radius: 2px;
+  padding: 7px 10px;
+  margin: 4px -3px;
+  width: 26%
+}
+
+#signin {
+  background-color: #36393f; /*//rust gray#555555*/
+  color: white;
+  border-radius: 0px;
+  border: 2px solid gray;
+  width: 70px;
+  height: 30px;
+  position: relative;
+  bottom: 38px;
+  left: 27%;
+}
+
+.mymessage {
+  position: relative;
+  top: 90%;
+  color: white;
+}
+
+.sender {
+  position: relative;
+  top: 90%;
+  color: white;
+  font-family: Verdana;
+  font-size: 1.5em;
+}
+
+doc_container {
+  position: absolute;
+  top:37px;
+  height: 200px;
+  max-height: 50%;
+  width: 80%;
+  color: blue;
+  z-index: 3;
+}
+
+#submit_doc_button {
+  position: absolute;
+  z-index: 1;
+  width: 70px;
+  height: 40px;
+  right: 0;
+  bottom: 0;
+}
+
+#document_button {
+  position: absolute;
+  left: 42%;
+  top: 4px;
+  height: 40px;
+  width: 100px;
+}
+</style>
